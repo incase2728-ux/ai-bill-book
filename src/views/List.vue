@@ -3,9 +3,25 @@
     <!-- 顶部导航栏 -->
     <div class="flex justify-between items-center p-4 bg-white shadow-sm">
       <h1 class="text-xl font-bold">💰 我的账本</h1>
-      <router-link to="/add" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition">
-        + 添加
-      </router-link>
+      <div class="flex space-x-2">
+        <button @click="handleReset"
+          class="bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300 transition flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg>
+          重置
+        </button>
+        <router-link to="/add"
+          class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+          </svg>
+          + 添加
+        </router-link>
+      </div>
     </div>
 
     <!-- 统计卡片区 -->
@@ -28,14 +44,24 @@
 
     <!-- 账单列表 -->
     <div v-if="bills.length > 0" class="p-4">
-      <div v-for="bill in bills" :key="bill.id" class="flex justify-between items-center p-4 border-b border-gray-100 bg-white">
-        <div class="flex flex-col">
+      <!-- // key使用bill.id,不使用index,vue的diff算法才能精准识别,不会出现删除列表第一项的时候,后面全部都得渲染 -->
+      <div v-for="bill in bills" :key="bill.id"
+        class="flex justify-between items-center p-4 border-b border-gray-100 bg-white">
+        <div class="flex flex-col flex-1 mr-4">
           <div class="font-medium">{{ bill.remark || '无备注' }}</div>
           <div class="text-gray-500 text-sm">{{ bill.date }}</div>
         </div>
-        <div :class="bill.type === 'INCOME' ? 'text-emerald-500' : 'text-rose-500'" class="font-bold">
+        <div :class="bill.type === 'INCOME' ? 'text-emerald-500' : 'text-rose-500'" class="font-bold mr-4">
           {{ bill.type === 'INCOME' ? '+' : '-' }}¥{{ bill.amount.toFixed(2) }}
         </div>
+        <button @click="handleDelete(bill.id)" class="p-2 rounded-full hover:bg-gray-100 transition-colors duration-200"
+          aria-label="删除账单">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+          </svg>
+        </button>
       </div>
     </div>
 
@@ -57,6 +83,20 @@ const { bills, totalIncome, totalExpense, balance } = storeToRefs(billStore);
 
 // 路由
 const router = useRouter();
+
+// 删除账单
+const handleDelete = (id: string) => {
+  if (confirm('确定要删除这条账单吗？')) {
+    billStore.deleteBill(id);
+  }
+};
+
+// 重置所有数据到默认账单
+const handleReset = () => {
+  if (confirm('确定要重置所有数据吗？这将删除所有账单并恢复到默认数据。')) {
+    billStore.reset();
+  }
+};
 </script>
 
 <style scoped>

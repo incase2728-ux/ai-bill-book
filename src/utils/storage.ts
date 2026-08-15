@@ -6,21 +6,24 @@ export const Storage = {
    * @param defaultValue 默认值，当获取失败或解析失败时返回
    * @returns 获取到的值或默认值
    */
+
+  // <T> 表示让调用方来指定类型,确保存进去的和取出来的类型一致
   get<T>(key: string, defaultValue: T): T {
     // 防止在 SSR 环境下报错
     if (typeof window === 'undefined') {
-      return defaultValue;
+      return defaultValue
     }
-
+    //try-catch 用来防止localStorage被禁用或数据损坏时候整个页面白屏
     try {
-      const item = localStorage.getItem(key);
-      if (item === null|| item === undefined) {
-        return defaultValue;
+      const item = localStorage.getItem(key) //key是键名，item是键值
+      // 如果 item 为 null 或 undefined，则返回默认值
+      if (item === null || item === undefined) {
+        return defaultValue
       }
-      return JSON.parse(item);
+      return JSON.parse(item) as T
     } catch (error) {
-      console.error(`读取存储键"${key}"时出错`, error);
-      return defaultValue;
+      console.warn(`读取存储键"${key}"时出错`, error)
+      return defaultValue
     }
   },
 
@@ -32,13 +35,16 @@ export const Storage = {
   set<T>(key: string, value: T): void {
     // 防止在 SSR 环境下报错
     if (typeof window === 'undefined') {
-      return;
+      return
     }
 
     try {
-      localStorage.setItem(key, JSON.stringify(value));
+      // 将值转换为 JSON 字符串并存储到 localStorage
+      //之所以能存数组，是因为 JSON.stringify 完美支持数组。
+      localStorage.setItem(key, JSON.stringify(value))
     } catch (error) {
-      console.error('Storage set error:', error);
+      // 如果储存空间满了就会报错
+      console.warn(`写入存储键"${key}"时出错`, error)
     }
-  }
-};
+  },
+}
