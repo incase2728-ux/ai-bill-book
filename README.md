@@ -34,13 +34,15 @@
 
 ## 📁 项目结构
 
+```text
 src/
-├── types/ # TypeScript 类型定义（Bill、BillType）
-├── stores/ # Pinia Store（账单状态管理）
-├── utils/ # 工具层（Storage 封装）
-├── views/ # 页面视图（List.vue / Add.vue）
-├── composables/ # （待扩展）组合式函数
-└── App.vue # 根组件
+├── types/          # TypeScript 类型定义（Bill、BillType）
+├── stores/         # Pinia Store（账单状态管理）
+├── utils/          # 工具层（Storage 封装）
+├── views/          # 页面视图（List.vue / Add.vue）
+├── composables/    # （待扩展）组合式函数
+└── App.vue         # 根组件
+```
 
 > 💡 **设计思路**：将「数据层（Store）」与「视图层（Views）」分离，通过封装的 `Storage` 工具隔离持久化逻辑，未来若需迁移至 uni-app 小程序，仅需替换 `utils/storage.ts` 中的底层存储 API。
 
@@ -63,6 +65,8 @@ npm i
 # 3. 启动开发服务器
 npm run dev
 
+```
+```bash
 🧠 项目亮点
 搜索筛选为何用 computed 而非 watch？
 因为 computed 有缓存机制——搜索词不变时，即便反复渲染也不会重复执行过滤逻辑，性能更好。
