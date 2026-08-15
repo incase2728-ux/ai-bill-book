@@ -1,8 +1,21 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import List from '../views/List.vue'
+import Add from '../views/Add.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [],
+  routes: [
+    {
+      path: '/',
+      name: 'List',
+      component: List
+    },
+    {
+      path: '/add',
+      name: 'Add',
+      component: Add
+    }
+  ],
 })
 
 export default router
