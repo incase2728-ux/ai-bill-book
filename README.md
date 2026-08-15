@@ -12,7 +12,7 @@
 
 |              列表页               |               搜索筛选                |             添加账单             |
 | :-------------------------------: | :-----------------------------------: | :------------------------------: |
-| ![列表页](./screenshots/list.png) | ![搜索筛选](./screenshots/search.png) | ![添加页](./screenshots/add.png) |
+| ![列表页](./screenshots/list.PNG) | ![搜索筛选](./screenshots/search.PNG) | ![添加页](./screenshots/add.PNG) |
 
 ## ✨ 核心功能
 
