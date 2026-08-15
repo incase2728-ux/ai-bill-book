@@ -4,7 +4,7 @@
 
 ## 🚀 在线体验
 
->
+> https://incase2728-ux.github.io/ai-bill-book/
 
 ## 📱 功能预览
 
@@ -55,10 +55,10 @@ src/
 
 ```bash
 # 1. 克隆项目
-git clone https://github.com/你的用户名/你的仓库名.git
+git clone https://github.com/incase2728-ux/ai-bill-book.git
 
 # 2. 安装依赖
-npm install
+npm i
 
 # 3. 启动开发服务器
 npm run dev
