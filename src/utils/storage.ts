@@ -20,7 +20,7 @@ export const Storage = {
       if (item === null || item === undefined) {
         return defaultValue
       }
-      return JSON.parse(item) as T
+      return JSON.parse(item) as T  //  把JSON字符串转换成对象,并指定类型为T
     } catch (error) {
       console.warn(`读取存储键"${key}"时出错`, error)
       return defaultValue
@@ -37,7 +37,6 @@ export const Storage = {
     if (typeof window === 'undefined') {
       return
     }
-
     try {
       // 将值转换为 JSON 字符串并存储到 localStorage
       //之所以能存数组，是因为 JSON.stringify 完美支持数组。

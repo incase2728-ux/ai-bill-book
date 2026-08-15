@@ -32,8 +32,11 @@
       </div>
 
       <div class="bg-white rounded-xl p-4 mb-4">
-        <label class="block text-gray-700 mb-2">备注</label>
-        <input v-model="formData.remark" type="text" placeholder="请输入备注" class="w-full p-4 border rounded-xl">
+        <div class="flex justify-between items-center mb-2">
+          <label class="block text-gray-700">备注</label>
+          <div class="text-sm text-gray-500">{{ formData.remark.length }}/{{MAX_REMARK_LENGTH}}</div>
+        </div>
+        <input v-model="formData.remark" type="text" placeholder="请输入备注" maxlength="50" class="w-full p-4 border rounded-xl">
       </div>
 
       <div class="bg-white rounded-xl p-4 mb-4">
@@ -72,8 +75,17 @@ const formData = reactive({
   remark: ''
 });
 
+// 最大备注长度
+const MAX_REMARK_LENGTH = 30;
+
 // 提交表单
 const handleSubmit = () => {
+  // 验证备注长度
+  if (formData.remark.length > MAX_REMARK_LENGTH) {
+    alert(`备注不能超过${MAX_REMARK_LENGTH}个字符`);
+    return;
+  }
+  
   /// 格式化日期
   const dateStr = (formData.date || new Date().toISOString().split('T')[0]) as string
   // 添加账单
