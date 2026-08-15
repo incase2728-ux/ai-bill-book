@@ -11,4 +11,5 @@ export interface Bill {
   amount: number;
   date: string;
   remark?: string;
+  category: '餐饮' | '交通' | '购物' | '其他';
 }

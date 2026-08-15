@@ -42,10 +42,28 @@
       </div>
     </div>
 
+    <!-- 搜索和过滤区 -->
+    <div class="p-4 bg-white shadow-sm flex space-x-4">
+      <div class="flex-1">
+        <input v-model="searchText" type="text" placeholder="搜索备注"
+          class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+      </div>
+      <div class="w-48">
+        <select v-model="selectedCategory"
+          class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+          <option value="全部">全部</option>
+          <option value="餐饮">餐饮</option>
+          <option value="交通">交通</option>
+          <option value="购物">购物</option>
+          <option value="其他">其他</option>
+        </select>
+      </div>
+    </div>
+
     <!-- 账单列表 -->
-    <div v-if="bills.length > 0" class="p-4">
+    <div v-if="filteredBills.length > 0" class="p-4">
       <!-- // key使用bill.id,不使用index,vue的diff算法才能精准识别,不会出现删除列表第一项的时候,后面全部都得渲染 -->
-      <div v-for="bill in bills" :key="bill.id"
+      <div v-for="bill in filteredBills" :key="bill.id"
         class="flex justify-between items-center p-4 border-b border-gray-100 bg-white">
         <div class="flex flex-col flex-1 mr-4">
           <div class="font-medium">{{ bill.remark || '无备注' }}</div>
@@ -75,7 +93,8 @@
 <script setup lang="ts">
 import { useBillStore } from '../stores/useBillStore';
 import { storeToRefs } from 'pinia';
-import { useRouter } from 'vue-router';
+import { useRouter, } from 'vue-router';
+import { ref, computed } from 'vue';
 
 // 使用 store
 const billStore = useBillStore();
@@ -83,6 +102,23 @@ const { bills, totalIncome, totalExpense, balance } = storeToRefs(billStore);
 
 // 路由
 const router = useRouter();
+
+// 搜索和过滤
+const searchText = ref('');
+const selectedCategory = ref('全部');
+
+// 过滤后的账单
+const filteredBills = computed(() => {
+  return bills.value.filter(bill => {
+    // 按备注模糊过滤
+    const matchSearch = searchText.value === '' ||
+      (bill.remark && bill.remark.toLowerCase().includes(searchText.value.toLowerCase()));
+    // 按分类精确过滤
+    const matchCategory = selectedCategory.value === '全部' || bill.category === selectedCategory.value;
+
+    return matchSearch && matchCategory;
+  });
+});
 
 // 删除账单
 const handleDelete = (id: string) => {
