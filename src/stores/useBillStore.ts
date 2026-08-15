@@ -14,7 +14,6 @@ export const useBillStore = defineStore('bill', () => {
 
   // 1.定义账单列表默认数据
   const defaultBills: Bill[] = [
-    // 现有数据
     {
       id: '1',
       type: BillType.INCOME,
@@ -39,7 +38,6 @@ export const useBillStore = defineStore('bill', () => {
       remark: '奶茶',
       category: '餐饮',
     },
-    // 新增数据
     {
       id: '4',
       type: BillType.INCOME,

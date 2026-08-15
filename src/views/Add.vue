@@ -41,7 +41,14 @@
 
       <div class="bg-white rounded-xl p-4 mb-4">
         <label class="block text-gray-700 mb-2">日期</label>
-        <input v-model="formData.date" type="date" class="w-full p-4 border rounded-xl">
+        <input v-model="formData.date" type="date" class="w-full p-4 border rounded-xl mb-3">
+        <label class="block text-gray-700 mb-2">类型</label>
+        <select v-model="formData.category" class="w-full p-4 border rounded-xl">
+          <option value="餐饮">餐饮</option>
+          <option value="交通">交通</option>
+          <option value="购物">购物</option>
+          <option value="其他">其他</option>
+        </select>
       </div>
     </div>
 
@@ -60,6 +67,7 @@ import { reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import { useBillStore } from '../stores/useBillStore';
 import { BillType } from '@/types/bill';
+import type { Bill } from '@/types/bill';
 
 // 路由
 const router = useRouter();
@@ -72,7 +80,8 @@ const formData = reactive({
   type: BillType.INCOME,
   amount: '' as string | number,
   date: new Date().toISOString().split('T')[0], // 默认今天
-  remark: ''
+  remark: '',
+  category: '餐饮'as'餐饮' | '交通' | '购物' | '其他'
 });
 
 // 最大备注长度
@@ -93,7 +102,8 @@ const handleSubmit = () => {
     type: formData.type,
     amount: Number(formData.amount),
     date: dateStr,
-    remark: formData.remark
+    remark: formData.remark,
+    category: formData.category
   });
 
   // 返回首页

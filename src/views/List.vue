@@ -68,6 +68,7 @@
         <div class="flex flex-col flex-1 mr-4">
           <div class="font-medium">{{ bill.remark || '无备注' }}</div>
           <div class="text-gray-500 text-sm">{{ bill.date }}</div>
+          <div class="text-gray-400 text-xs">{{ bill.category }}</div>
         </div>
         <div :class="bill.type === 'INCOME' ? 'text-emerald-500' : 'text-rose-500'" class="font-bold mr-4">
           {{ bill.type === 'INCOME' ? '+' : '-' }}¥{{ bill.amount.toFixed(2) }}
